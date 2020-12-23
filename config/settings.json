@@ -1,0 +1,97 @@
+{
+  "settings": {
+    "index": {
+      "number_of_shards": 1,
+      "number_of_replicas": 1
+    },
+    "analysis": {
+      "tokenizer": {
+        "edge_ngram_tokenizer": {
+          "type": "edge_ngram",
+          "min_gram": 2,
+          "max_gram": 50,
+          "token_chars": [
+            "letter",
+            "digit",
+            "punctuation",
+            "symbol"
+          ]
+        }
+      },
+      "analyzer": {
+        "standard_analyzer": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "trim"
+          ]
+        },
+        "edge_ngram_analyzer_front": {
+          "type": "custom",
+          "tokenizer": "edge_ngram_tokenizer",
+          "filter": [
+            "edge_ngram_filter_front",
+            "lowercase",
+            "trim"
+          ]
+        },
+        "edge_ngram_analyzer_back": {
+          "type": "custom",
+          "tokenizer": "edge_ngram_tokenizer",
+          "filter": [
+            "edge_ngram_filter_back",
+            "lowercase",
+            "trim"
+          ]
+        }
+      },
+      "filter": {
+        "edge_ngram_filter_front": {
+          "type": "edgeNGram",
+          "min_gram": 2,
+          "max_gram": 50,
+          "side": "front"
+        },
+        "edge_ngram_filter_back": {
+          "type": "edgeNGram",
+          "min_gram": 2,
+          "max_gram": 50,
+          "side": "back"
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "cat_no": {
+        "type": "keyword"
+      },
+      "cat_nm": {
+        "type": "text",
+        "analyzer": "standard_analyzer",
+        "boost": 10
+      },
+      "item_cd": {
+        "type": "keyword"
+      },
+      "item_nm": {
+        "type": "text",
+        "analyzer": "standard_analyzer",
+        "boost": 5
+      },
+      "rate": {
+        "type": "keyword"
+      },
+      "rate_cnt": {
+        "type": "keyword"
+      },
+      "ssg_price": {
+        "type": "integer"
+      },
+      "unit": {
+        "type": "keyword"
+      }
+    }
+  }
+}
